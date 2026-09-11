@@ -1,0 +1,25 @@
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Patient/retinal images
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Generated reports
+backend/reports/*
+!backend/reports/.gitkeep
+
+# Environment variables
+.env
+
+# VS Code
+.vscode/
