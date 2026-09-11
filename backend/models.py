@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, ForeignKey
 from datetime import datetime
 
-from database import Base
+from .database import Base
 
 
 class Patient(Base):

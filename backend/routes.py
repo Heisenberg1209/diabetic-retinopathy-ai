@@ -5,9 +5,9 @@ from PIL import Image as PILImage
 from sqlalchemy.orm import Session
 import shutil
 
-from database import SessionLocal
-from models import Patient, Image as ImageRecord
-from services import assess_image_quality
+from .database import SessionLocal
+from .models import Patient, Image as ImageRecord
+from .services import assess_image_quality
 
 router = APIRouter()
 
@@ -107,6 +107,7 @@ async def upload_image(
         "image_id": image_id,
         "filename": saved_filename
     }
+
 @router.post("/quality/{image_id}")
 def check_image_quality(image_id: str):
 

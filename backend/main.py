@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
-from database import engine, Base
-import models
-from routes import router
+from .database import engine, Base
+from . import models
+from .routes import router
 
 
 # Create database tables

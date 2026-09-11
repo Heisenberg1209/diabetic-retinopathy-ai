@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from PIL import Image, ImageStat, ImageFilter
 
 
@@ -25,20 +26,18 @@ def assess_image_quality(image_path: str) -> dict:
 
             # Convert to RGB
             image = image.convert("RGB")
-
             width, height = image.size
 
             # --------------------------------
             # 1. Resolution score
             # --------------------------------
-
             pixels = width * height
 
-            if pixels >= 1000000:
+            if pixels >= 1_000_000:
                 resolution_score = 100
-            elif pixels >= 500000:
+            elif pixels >= 500_000:
                 resolution_score = 80
-            elif pixels >= 250000:
+            elif pixels >= 250_000:
                 resolution_score = 60
             else:
                 resolution_score = 30
@@ -46,13 +45,10 @@ def assess_image_quality(image_path: str) -> dict:
             # --------------------------------
             # 2. Brightness score
             # --------------------------------
-
             grayscale = image.convert("L")
             stats = ImageStat.Stat(grayscale)
-
             brightness = stats.mean[0]
 
-            # Ideal approximate brightness range
             if 60 <= brightness <= 200:
                 brightness_score = 100
             elif 40 <= brightness <= 220:
@@ -63,7 +59,6 @@ def assess_image_quality(image_path: str) -> dict:
             # --------------------------------
             # 3. Contrast score
             # --------------------------------
-
             contrast = stats.stddev[0]
 
             if contrast >= 45:
@@ -78,10 +73,8 @@ def assess_image_quality(image_path: str) -> dict:
             # --------------------------------
             # 4. Basic sharpness score
             # --------------------------------
-
             edges = grayscale.filter(ImageFilter.FIND_EDGES)
             edge_stats = ImageStat.Stat(edges)
-
             sharpness = edge_stats.stddev[0]
 
             if sharpness >= 18:
@@ -94,22 +87,18 @@ def assess_image_quality(image_path: str) -> dict:
                 sharpness_score = 25
 
             # --------------------------------
-            # Overall score
+            # Overall quality score
             # --------------------------------
-
-            quality_score = (
-                0.25 * resolution_score +
-                0.25 * brightness_score +
-                0.25 * contrast_score +
-                0.25 * sharpness_score
+            quality_score = round(
+                0.25 * resolution_score
+                + 0.25 * brightness_score
+                + 0.25 * contrast_score
+                + 0.25 * sharpness_score
             )
-
-            quality_score = round(quality_score)
 
             # --------------------------------
             # Determine status
             # --------------------------------
-
             if quality_score >= 70:
                 status = "gradable"
                 feedback = "Image quality is acceptable for screening."
@@ -141,7 +130,6 @@ def assess_image_quality(image_path: str) -> dict:
             }
 
     except Exception as e:
-
         return {
             "score": 0,
             "status": "ungradable",
